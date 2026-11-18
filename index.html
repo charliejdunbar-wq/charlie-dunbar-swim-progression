@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Charlie Dunbar | Swim Progress</title>
+<style>
+:root{--navy:#071a30;--navy2:#102f50;--blue:#1769aa;--cyan:#55c4df;--ink:#14253a;--muted:#66788d;--line:#dce5ed;--bg:#f2f6fa;--green:#16845b;--gold:#b87716;--red:#b34747;--white:#fff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:radial-gradient(ellipse at 85% 5%,#1b5a85 0,transparent 38%),linear-gradient(125deg,var(--navy),var(--navy2));color:#fff;padding:34px max(20px,calc((100% - 1180px)/2)) 26px;position:relative;overflow:hidden}
+header:after{content:"";position:absolute;right:-60px;bottom:-165px;width:430px;height:250px;border:1px solid #ffffff19;border-radius:50%;box-shadow:0 0 0 22px #ffffff08,0 0 0 45px #ffffff06}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#9ddff0;font-weight:850}
+h1{font-size:clamp(30px,5vw,48px);line-height:1.04;margin:9px 0 9px;letter-spacing:-.035em}
+header p{color:#d6e7f4;margin:0;max-width:700px;font-size:15px}
+.header-meta{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.chip{border:1px solid #ffffff30;background:#ffffff12;border-radius:99px;padding:5px 10px;color:#e5f2fa;font-size:11px;font-weight:750}
+nav{display:flex;gap:6px;flex-wrap:wrap;max-width:1180px;margin:0 auto;padding:12px 18px}
+nav a{color:#38617e;text-decoration:none;font-weight:800;font-size:12px;padding:8px 12px;border-radius:99px}nav a:hover{background:#e1edf6}
+.goal-form{display:grid;grid-template-columns:1.2fr .8fr 1fr 1fr;gap:10px;align-items:end}
+.goal-progress{height:8px;background:#e8eef3;border-radius:99px;overflow:hidden;min-width:90px}
+.goal-progress i{height:100%;display:block;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--blue))}
+.goal-result{font-weight:850;white-space:nowrap}
+.goal-result.met{color:var(--green)}.goal-result.pending{color:var(--gold)}
+main{max-width:1180px;margin:0 auto;padding:4px 18px 52px}
+.intro{color:var(--muted);font-size:13px;margin:4px 0 15px}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:14px 0 18px}
+.panel,.metric{background:var(--white);border:1px solid var(--line);border-radius:15px;box-shadow:0 4px 20px #0e2b4510}
+.metric{padding:16px 18px}.metric .k{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:850}.metric strong{display:block;font-size:26px;letter-spacing:-.025em;margin:4px 0 1px}.metric span{font-size:11px;color:var(--muted)}
+.panel{padding:19px;margin-bottom:16px}.panel h2{margin:0 0 4px;font-size:20px;letter-spacing:-.02em}.panel h3{font-size:15px;margin:0}
+.sub{color:var(--muted);font-size:13px;margin:0 0 15px}
+.toolbar{display:grid;grid-template-columns:1fr 1fr 1.2fr auto;gap:12px;align-items:end}
+.field{display:grid;gap:5px;min-width:0}label{font-size:10px;font-weight:850;color:#53677d;text-transform:uppercase;letter-spacing:.08em}
+input,select{font:inherit;padding:10px 11px;border:1px solid #cbd7e2;border-radius:9px;background:#fff;color:var(--ink);width:100%;min-width:0}
+button{border:0;background:var(--blue);color:#fff;padding:10px 15px;border-radius:9px;font-weight:850;cursor:pointer;font:inherit;font-size:13px}button:hover{filter:brightness(1.08)}button.secondary{background:#e8f1f8;color:#194f79}button.ghost{background:#f1f5f8;color:#3d556b}
+.result-hero{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0 0}
+.stat{background:#f5f8fb;border:1px solid #e7edf3;border-radius:11px;padding:12px}.stat label{display:block}.stat strong{font-size:21px;display:block;margin:3px 0 0}.stat small{color:var(--muted);font-size:11px}
+.table-wrap{overflow-x:auto}table{width:100%;border-collapse:collapse;font-size:13px;min-width:650px}th{text-align:left;color:#657990;font-size:10px;text-transform:uppercase;letter-spacing:.08em;padding:10px 9px;border-bottom:1px solid var(--line);white-space:nowrap}td{padding:11px 9px;border-bottom:1px solid #edf1f5;vertical-align:middle}tr:last-child td{border-bottom:0}.num{font-variant-numeric:tabular-nums;font-weight:800;white-space:nowrap}.event{font-weight:850}.muted{color:var(--muted)}.small{font-size:11px;color:var(--muted)}
+.pill{display:inline-block;padding:3px 8px;border-radius:99px;background:#edf3f8;color:#315d80;font-size:10px;font-weight:850;white-space:nowrap}.pill.met{background:#e6f5ee;color:#14734e}.pill.close{background:#fff4df;color:#986214}.pill.open{background:#fceeee;color:#9d4242}
+.progress{height:7px;border-radius:99px;background:#e8eef3;overflow:hidden;width:96px}.progress i{height:100%;display:block;border-radius:99px;background:linear-gradient(90deg,var(--cyan),var(--blue))}
+.ladder-card{border:1px solid var(--line);border-radius:12px;margin:9px 0;overflow:hidden}.ladder-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;background:#f7f9fb;font-weight:850;font-size:12px}.ladder-head span{color:var(--muted);font-weight:650}.ladder-card table{min-width:560px}.ladder-card th,.ladder-card td{padding:8px 11px}
+.grid2{display:grid;grid-template-columns:1.2fr .8fr;gap:14px}
+.callout{border-left:3px solid var(--cyan);background:#f4f9fc;padding:12px 14px;border-radius:8px;color:#4d647b;font-size:12px;margin:12px 0}
+.formgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;align-items:end}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.history-list{max-height:310px;overflow:auto}
+.history-list table{min-width:530px}
+.pp-override{max-width:100%}
+#points .grid2{align-items:start}
+#points .stat{margin-bottom:0}
+details{border-top:1px solid var(--line);padding:11px 0}summary{cursor:pointer;font-weight:850}
+.source-list{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.source{border:1px solid var(--line);border-radius:9px;padding:10px 12px;font-size:12px}.source a{color:var(--blue);font-weight:800;text-decoration:none}.source p{margin:4px 0 0;color:var(--muted);font-size:11px}
+footer{color:#748397;font-size:11px;line-height:1.6;padding:6px 2px}
+.note{color:#748397;font-size:11px}
+@media(max-width:800px){.cards{grid-template-columns:repeat(2,1fr)}.toolbar{grid-template-columns:1fr 1fr}.toolbar button{width:100%}.grid2{grid-template-columns:1fr}.formgrid{grid-template-columns:repeat(2,1fr)}.goal-form{grid-template-columns:1fr 1fr}.result-hero{grid-template-columns:1fr 1fr}.source-list{grid-template-columns:1fr}}
+@media(max-width:480px){.cards{grid-template-columns:1fr 1fr;gap:8px}.metric{padding:13px}.metric strong{font-size:21px}.panel{padding:14px}.formgrid,.goal-form{grid-template-columns:1fr 1fr}.result-hero{grid-template-columns:1fr}.intro{font-size:12px}}
+</style>
+</head>
+<body>
+<header>
+ <div class="eyebrow">Competitive swimming · performance dashboard</div>
+ <h1>Charlie Dunbar</h1>
+ <p>A living record of personal bests, qualifying standards and the next time targets across Michigan, USA Swimming and national-level meets.</p>
+ <div class="header-meta"><span class="chip">Boys 13–14 benchmarks</span><span class="chip">SCY + LCM kept separate</span><span class="chip">Updated with your uploaded results</span></div>
+</header>
+<nav>
+ <a href="#overview">Overview</a><a href="#compare">Compare a swim</a><a href="#goals">Goal times</a><a href="#allbests">All personal bests</a><a href="#points">Points & IMX/IMR</a><a href="#log">Add a swim</a><a href="#standards">Standards & sources</a>
+</nav>
+<main>
+ <p class="intro">Updated November 18, 2026. Seeded from the two results screenshots you uploaded. Times below are treated as the best times shown in those screenshots; historical dates are preserved.</p>
+ <section class="cards" id="overview">
+  <div class="metric"><div class="k">Personal bests loaded</div><strong id="pbCount">—</strong><span>Across yards and meters</span></div>
+  <div class="metric"><div class="k">Standards achieved</div><strong id="metCount">—</strong><span>Among cuts applicable to loaded PBs</span></div>
+  <div class="metric"><div class="k">Events with comparisons</div><strong id="eventCount">—</strong><span>At least one matching standard</span></div>
+  <div class="metric"><div class="k">Next target available</div><strong id="nextCount">—</strong><span>Events with a faster cut still ahead</span></div>
+ </section>
+
+ <section class="panel" id="compare">
+  <h2>Compare an event against the cut ladder</h2>
+  <p class="sub">Choose the exact event and course. The ladder now separates 2026 Winter Juniors, 2027 Summer Junior Nationals, 2027 Toyota Nationals (18 & Under and 19 & Over), U.S. Open and Olympic Trials. A cut is achieved when Charlie's PB is equal to or faster than the published standard.</p>
+  <div class="toolbar">
+   <div class="field"><label for="course">Course</label><select id="course"><option value="SCY">Short Course Yards (SCY)</option><option value="LCM">Long Course Meters (LCM)</option></select></div>
+   <div class="field"><label for="event">Event</label><select id="event"></select></div>
+   <div class="field"><label for="timeOverride">Compare a different time (optional)</label><input id="timeOverride" placeholder="Leave blank to use Charlie's PB"></div>
+   <button id="compareBtn">Compare</button>
+  </div>
+  <div class="result-hero">
+   <div class="stat"><label>Charlie's PB</label><strong id="chosenPB">—</strong><small id="pbInfo">—</small></div>
+   <div class="stat"><label>Closest unachieved standard</label><strong id="nextTarget">—</strong><small id="nextTargetName">—</small></div>
+   <div class="stat"><label>Time still needed</label><strong id="gap">—</strong><small id="percent">—</small></div>
+  </div>
+  <div class="callout"><b>How the percentage works:</b> progress = cut time ÷ Charlie's PB × 100, capped at 100% once the cut is met. The seconds column shows exactly how much faster he would need to swim. This is a time-to-cut calculation, not a ranking or prediction.</div>
+  <div id="ladder"></div>
+ </section>
+
+ <section class="panel" id="goals">
+  <h2>Set personal goal times</h2>
+  <p class="sub">Enter a target for any event and course. The dashboard compares it with Charlie's fastest logged swim, shows the exact time drop still needed, and automatically updates when you add a faster swim.</p>
+  <div class="goal-form">
+   <div class="field"><label for="goalEvent">Event</label><select id="goalEvent"></select></div>
+   <div class="field"><label for="goalCourse">Course</label><select id="goalCourse"><option value="SCY">SCY</option><option value="LCM">LCM</option></select></div>
+   <div class="field"><label for="goalTime">Goal time</label><input id="goalTime" placeholder="e.g. 49.00 or 1:04.25" inputmode="decimal"></div>
+   <div class="field"><label for="goalDate">Target date (optional)</label><input id="goalDate" type="date"></div>
+  </div>
+  <div class="actions"><button id="saveGoal">Save goal time</button><button class="secondary" id="clearGoalForm">Clear form</button></div>
+  <div class="callout"><b>How goal distance is calculated:</b> if the current PB is slower than the goal, the dashboard shows the exact seconds to drop and the percentage of the goal time reached. Once the PB equals or beats the goal, it shows “GOAL MET” and the amount Charlie is ahead by. Yards and meters are always kept separate.</div>
+  <div class="table-wrap"><table style="min-width:720px"><thead><tr><th>Event</th><th>Course</th><th>Current PB</th><th>Goal time</th><th>Time to goal / margin</th><th>Goal progress</th><th>Target date</th><th></th></tr></thead><tbody id="goalsTable"></tbody></table></div>
+  <p class="note" id="goalMessage" aria-live="polite" style="margin-top:10px">Goals are saved in this browser. Use the same browser and device to see them again.</p>
+ </section>
+
+ <section class="panel" id="allbests">
+  <h2>All loaded personal bests</h2>
+  <p class="sub">Select any row to load that event into the comparison ladder. Course and distance stay exactly as listed in the results screenshots.</p>
+  <div class="table-wrap"><table><thead><tr><th>Event</th><th>Course</th><th>Best time</th><th>Date</th><th>Meet listed</th><th>Next cut</th></tr></thead><tbody id="pbTable"></tbody></table></div>
+ </section>
+
+ <section class="panel" id="points">
+  <h2>Performance points & IMX / IMR</h2>
+  <p class="sub">USA Swimming Power Points and World Aquatics (formerly FINA) points are displayed separately. The scores compare performances across events; they are not qualifying-cut percentages.</p>
+  <div class="callout"><b>Important:</b> World Aquatics (formerly FINA) points use the 2026 men's long-course meter base times and official cubic formula. There is no official SCY/yards World Aquatics table, so SCY rows show “—”. USA Swimming Power Points are age-, event- and course-specific lookup values. Published matches are shown as sourced; same-age, same-event estimates are marked with “~”. Missing scores can be entered from the official Data Hub using the override box.</div>
+  <div class="toolbar" style="grid-template-columns:1fr 1fr auto;margin:12px 0 14px">
+   <div class="field"><label for="pointCourse">Course filter</label><select id="pointCourse"><option value="ALL">All courses</option><option value="SCY">SCY</option><option value="LCM">LCM</option></select></div>
+   <div class="field"><label for="pointSort">Sort points</label><select id="pointSort"><option value="event">Event order</option><option value="usa">USA Power Points</option><option value="wa">World Aquatics points</option></select></div>
+   <button id="refreshPoints">Refresh scores</button>
+  </div>
+  <div class="table-wrap"><table style="min-width:760px"><thead><tr><th>Event</th><th>Course</th><th>Personal best</th><th>Age at swim</th><th>USA Swimming Power Points</th><th>World Aquatics / FINA</th></tr></thead><tbody id="pointsTable"></tbody></table></div>
+  <p class="note" style="margin-top:10px">To override a USA score, type the official Power Points value into the “Override” box and press Enter or leave the field. The value is saved in this browser. “Exact” values match published results; estimates marked “~” use a published same-age, same-event and same-course reference point. A blank score means no suitable reference value was available. Age at swim is inferred from the public profile/result dates; verify it before relying on a USA Power Point value. For an official score, check the USA Swimming Data Hub or the meet's SWIMS result.</p>
+  <div class="source-list" style="margin-top:12px">
+   <div class="source"><a href="https://www.usaswimming.org/times/imx-imr" target="_blank" rel="noopener">USA Swimming IMX / IMR rules</a><p>Required 13–18 event sets and same-course, same-season completion rules.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/times/popular-resources/data-hub" target="_blank" rel="noopener">USA Swimming Data Hub</a><p>Official Power Points and swimmer performance data.</p></div>
+   <div class="source"><a href="https://swimstandards.com/tools/power-points-calculator" target="_blank" rel="noopener">Power Points calculator reference</a><p>Age-, gender-, course- and event-specific lookup calculator for cross-checking published values.</p></div>
+   <div class="source"><a href="https://www.worldaquatics.com/swimming/points" target="_blank" rel="noopener">World Aquatics points formula & tables</a><p>2026 base-time charts and the official cubic scoring formula.</p></div>
+   <div class="source"><a href="https://swimstandards.com/swimmer/charlie-dunbar" target="_blank" rel="noopener">Charlie's public Swim Standards profile</a><p>Published points used for matching historical performances, 2026 age references, and his 2025–26 LCM IMX scorecard.</p></div>
+   <div class="source"><a href="https://swimstandards.com/swimmer/nathan-akhimiomoh" target="_blank" rel="noopener">Age-14 boys' reference results</a><p>Published 50 Free and 200 Free point references used only for same-age estimates or exact time matches.</p></div>
+   <div class="source"><a href="https://swimstandards.com/swimmer/mufei-wu" target="_blank" rel="noopener">Additional age-14 reference results</a><p>Published 50 Back and 50 Breast point references used only as estimate anchors.</p></div>
+  </div>
+  <h3 style="margin-top:20px">IM Ready (IMR) & IM Xtreme (IMX) season totals</h3>
+  <p class="sub">For ages 13–18, IMR uses 200 Free, 100 Back, 100 Breast, 100 Fly and 200 IM. IMX uses 500 Free (SCY) / 400 Free (LCM), 200 Back, 200 Breast, 200 Fly, 200 IM and 400 IM. The dashboard selects the fastest recorded swim in the chosen season and course.</p>
+  <div class="toolbar" style="grid-template-columns:1fr 1fr auto;margin:10px 0 12px">
+   <div class="field"><label for="imxSeason">Season</label><select id="imxSeason"><option value="2025-2026">2025–2026</option><option value="2026-2027">2026–2027</option></select></div>
+   <div class="field"><label for="imxCourse">Course</label><select id="imxCourse"><option value="SCY">SCY</option><option value="LCM">LCM</option></select></div>
+   <button id="refreshIMX">Update IMX / IMR</button>
+  </div>
+  <div class="grid2">
+   <div class="stat"><label>IMR score · <span id="imrCourseLabel">SCY</span></label><strong id="imrTotal">—</strong><small id="imrProgress">—</small></div>
+   <div class="stat"><label>IMX score · <span id="imxCourseLabel">SCY</span></label><strong id="imxTotal">—</strong><small id="imxProgress">—</small></div>
+  </div>
+  <div class="grid2" style="margin-top:12px">
+   <div><h3>IMR event breakdown</h3><div class="table-wrap"><table style="min-width:420px"><thead><tr><th>Required event</th><th>Time</th><th>Power Points</th><th>Status</th></tr></thead><tbody id="imrEvents"></tbody></table></div></div>
+   <div><h3>IMX event breakdown</h3><div class="table-wrap"><table style="min-width:420px"><thead><tr><th>Required event</th><th>Time</th><th>Power Points</th><th>Status</th></tr></thead><tbody id="imxEvents"></tbody></table></div></div>
+  </div>
+  <div class="callout"><b>How to read this:</b> “N/M times” counts the required swims found in the selected course and season. The points subtotal adds only events with an available point value. A complete official USA Swimming IMX/IMR score also requires every required event to have been swum in a sanctioned meet in the same course and season (September 1–August 31). A partial subtotal is not an official final score or national rank.</div>
+ </section>
+
+ <section class="grid2">
+  <div class="panel" id="log">
+   <h2>Add a new swim</h2>
+   <p class="sub">Build a genuine time history. New swims are saved in this browser; the fastest logged time becomes the PB for that event and course.</p>
+   <div class="formgrid">
+    <div class="field"><label for="newEvent">Event</label><select id="newEvent"></select></div>
+    <div class="field"><label for="newCourse">Course</label><select id="newCourse"><option>SCY</option><option>LCM</option></select></div>
+    <div class="field"><label for="newTime">Swim time</label><input id="newTime" placeholder="e.g. 1:04.25"></div>
+    <div class="field"><label for="newDate">Date</label><input id="newDate" type="date"></div>
+    <div class="field"><label for="newMeet">Meet</label><input id="newMeet" placeholder="Meet name"></div>
+   </div>
+   <div class="actions"><button id="addSwim">Save swim</button><button class="secondary" id="exportCsv">Export CSV</button></div>
+   <div id="saveMessage" class="small" aria-live="polite" style="margin-top:9px"></div>
+  </div>
+  <div class="panel">
+   <h2>Time log</h2>
+   <p class="sub">Uploaded personal-best entries plus any new swims added here.</p>
+   <div class="history-list"><table><thead><tr><th>Event / Course</th><th>Time</th><th>Date</th><th>Record</th></tr></thead><tbody id="historyTable"></tbody></table></div>
+  </div>
+ </section>
+
+ <section class="panel" id="standards">
+  <h2>Standards included</h2>
+  <p class="sub">The dashboard compares only matching events and courses. It does not convert between SCY and LCM or assume 400m equals 500y for performance equivalence; paired championship standards are mapped only where the official standard table explicitly pairs those events.</p>
+  <div class="source-list">
+   <div class="source"><a href="https://www.miswim.org/page/times/custom-page" target="_blank" rel="noopener">Michigan Swimming time standards</a><p>Official Michigan Swimming index for 2026–27 SCY and 2026 LCM MAGS / ULTRA cuts.</p></div>
+   <div class="source"><a href="https://swimstandards.com/times/2027-michigan-age-group-championship-time-standards" target="_blank" rel="noopener">2026–27 Michigan MAGS table</a><p>Michigan age-group qualifying standards; distance pairs are mapped to 500/400, 1000/800 and 1650/1500 by course.</p></div>
+   <div class="source"><a href="https://www.miswim.org/milsc/UserFiles/Image/QuickUpload/2028-motivational-standards-age-group_014941.pdf" target="_blank" rel="noopener">USA Swimming 2024–28 motivational standards</a><p>B, BB, A, AA, AAA and AAAA standards for boys 13–14 in SCY and LCM.</p></div>
+   <div class="source"><a href="https://www.mhsaa.com/sports/boys-swim-dive/adcoach" target="_blank" rel="noopener">MHSAA 2026–27 LP finals qualifying times</a><p>2026–27 Lower Peninsula boys Division 1, 2 and 3 qualifying standards.</p></div>
+   <div class="source"><a href="https://www.swimstandards.com/times/2027-michigan-ultra-championship-time-standards" target="_blank" rel="noopener">Michigan ULTRA 2027</a><p>Open championship cuts. Course-paired distance events are displayed against the correct LCM distance.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/docs/default-source/timesdocuments/time-standards/2027/13240385687_2027_events_speedosectionals_timestandards.pdf?sfvrsn=6b7d1c32_1" target="_blank" rel="noopener">2027 Speedo Sectionals</a><p>Official men’s SCY and LCM standards; 50 Free LCM is 25.29, while 50 Back LCM is 28.69.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/docs/default-source/timesdocuments/time-standards/2027/13240385687_2027_events_tyrfutureschampionships_timestandards.pdf?sfvrsn=987e1c32_1" target="_blank" rel="noopener">2027 TYR Futures</a><p>Official men’s 18 & Under standards in SCY and LCM.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/docs/default-source/timesdocuments/time-standards/2026/11320828118_events_timestandards_2026_speedowinterjrs.pdf" target="_blank" rel="noopener">2026 Speedo Winter Junior Championships</a><p>Separate Winter Juniors cuts; SCY and LCM standards, qualifying period starts Nov. 1, 2025.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/docs/default-source/timesdocuments/time-standards/2027/13240385687_2027_events_speedojuniornationalchampionships_timestandards.pdf?sfvrsn=6d7d1c32_1" target="_blank" rel="noopener">2027 Speedo Summer Junior Nationals</a><p>Officially titled Speedo Junior National Championships; 2027 standards shown separately from Winter Juniors.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/docs/default-source/timesdocuments/time-standards/2027/13340919387_2027_events_toyotanationalchampionships_timestandards.pdf?sfvrsn=fbbd1d32_1" target="_blank" rel="noopener">2027 Toyota National Championships</a><p>Separate men’s 18 & Under and 19 & Over standards in SCY and LCM.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/docs/default-source/timesdocuments/time-standards/2026/timestandards_2026_toyotausopen082826.pdf" target="_blank" rel="noopener">2026 Toyota U.S. Open Championships</a><p>Official 18 & Under men’s SCY and LCM standards. Included as the latest published U.S. Open benchmark located.</p></div>
+   <div class="source"><a href="https://www.usaswimming.org/docs/default-source/timesdocuments/time-standards/2028/2028_olympictrials_timestandards.pdf" target="_blank" rel="noopener">2028 U.S. Olympic Team Trials</a><p>Official men’s LCM qualifying standards; qualifying period Dec. 2, 2026 through May 30, 2028.</p></div>
+  </div>
+  <details><summary>Important interpretation notes</summary>
+   <p class="note">Winter Juniors and Summer Junior Nationals are separate meet standards. Winter Juniors uses the 2026 Speedo Winter Junior Championships sheet; Summer Juniors uses the 2027 Speedo Junior National Championships sheet (the official meet title does not include “Summer”). These standards are national meet cuts, not age-group-specific entry guarantees; age eligibility and each qualifying window still apply.</p>
+   <p class="note">The 2027 Toyota National Championships include two separate men’s standards: 18 & Under and 19 & Over. The 2026 Toyota U.S. Open benchmark shown is its published 18 & Under table; no 2027 U.S. Open standard was listed on USA Swimming’s standards page when this dashboard was updated. Olympic Trials is an elite LCM benchmark, not a forecast or age-based expectation.</p>
+   <p class="note">MHSAA cuts shown are Lower Peninsula high-school qualifying standards, separated by Division 1, 2 and 3. They are not USA Swimming age-group standards. Long-distance paired standards are matched by course: 500 SCY ↔ 400 LCM, 1000 SCY ↔ 800 LCM, and 1650 SCY ↔ 1500 LCM. These are the meet’s published equivalent event pairs, not a mathematical conversion between course times.</p>
+   <p class="note">No qualifying cut is loaded for 25-yard events or 100 IM where the listed standards do not include a matching event. Winter Juniors does not publish 50 Back, 50 Breast or 50 Fly individual standards. Relay cuts are not compared to individual swims.</p>
+   <p class="note">The imported PB list is from the screenshots supplied in this chat. Some entries are dated 2021 or 2023, so the dashboard preserves their listed date; please update them when a newer PB exists.</p>
+   <p class="note">USA Swimming Power Points are lookup scores, not a single public cubic formula. Exact published matches and same-age reference anchors are identified in the point table. A “~” score is an estimate calculated from a same-age, same-event, same-course reference point; it is not an official SWIMS result and can differ from the official table. Where a suitable reference is unavailable, the score stays blank until an official value is entered in the override field. World Aquatics/FINA points are calculated from the 2026 men’s LCM base times using floor(1000 × (base time ÷ swim time)³). There is no official SCY World Aquatics table; 100 IM is not included in the 2026 LCM base-time list.</p>
+   <p class="note">IMX and IMR event sets follow USA Swimming’s 13–18 requirements. The displayed total is a live sum of the selected season’s event points; a complete, official score also depends on every required event being swum in a sanctioned meet in the same course and season. Any estimated Power Point makes the displayed total an estimate, not an official ranking.</p>
+  </details>
+ </section>
+ <footer>Built for personal swim-progress tracking. Official qualifying standards can change by season; verify the meet packet, age-up rules, course, qualifying period and applicable division before using any time for meet entry. This dashboard is a planning aid, not an official eligibility determination.</footer>
+</main>
+<script>
+const imported = [
+["25 Free","SCY","15.98","2021-05-15","MI USSC USSC May 21 Closed Invite"],
+["50 Free","SCY","23.22","2026-10-24","2026 USSC Trick or Treat Grab"],
+["50 Free","LCM","26.66","2026-06-27","MI CW Eric Namesnik Memorial Invitational"],
+["100 Free","SCY","49.02","2026-07-20","WISC Championships"],
+["100 Free","LCM","55.86","2026-07-17","MAGS Championship Meet (50m)"],
+["200 Free","SCY","1:45.63","2026-07-20","WISC Championships"],
+["200 Free","LCM","2:00.21","2026-07-31","Central Zone 14 & Under Championships"],
+["400 Free","LCM","4:13.23","2026-08-01","Central Zone 14 & Under Championships"],
+["500 Free","SCY","4:49.91","2026-03-21","MAGS Championship (25y)"],
+["800 Free","LCM","8:48.02","2026-08-02","Central Zone 14 & Under Championships"],
+["1000 Free","SCY","9:51.21","2026-03-26","Four Corners Speedo Sectional Championships"],
+["1500 Free","LCM","16:43.51","2026-07-30","Central Zone 14 & Under Championships"],
+["1650 Free","SCY","16:37.89","2026-03-29","Four Corners Speedo Sectional Championships"],
+["25 Back","SCY","18.54","2021-05-15","MI USSC USSC May 21 Closed Invite"],
+["50 Back","SCY","27.45","2026-10-24","2026 USSC Trick or Treat Grab"],
+["50 Back","LCM","30.26","2026-07-18","MAGS Championship Meet (50m)"],
+["100 Back","SCY","58.65","2025-11-22","MI SST Fall Classic"],
+["100 Back","LCM","1:06.92","2026-06-14","MI CW Summer Vacation Invite"],
+["200 Back","SCY","2:01.96","2026-03-21","MAGS Championship (25y)"],
+["200 Back","LCM","2:19.72","2026-07-18","MAGS Championship Meet (50m)"],
+["25 Breast","SCY","23.38","2021-03-06","MI CW Brighton Splash"],
+["50 Breast","SCY","29.40","2026-07-20","WISC Championships"],
+["50 Breast","LCM","45.23","2023-06-18","MI DRD Freeze or Fry"],
+["100 Breast","SCY","1:07.62","2026-10-04","CW Keep It Moving #1"],
+["100 Breast","LCM","1:33.80","2023-07-21","Michigan Swimming LC MAGS"],
+["200 Breast","SCY","2:28.07","2026-01-18","MI SLA Arctic Blast"],
+["200 Breast","LCM","3:18.40","2023-07-22","Michigan Swimming LC MAGS"],
+["25 Fly","SCY","18.81","2021-03-28","Time Trial"],
+["50 Fly","SCY","27.14","2025-12-13","Holiday Cup"],
+["50 Fly","LCM","29.72","2026-07-17","MAGS Championship Meet (50m)"],
+["100 Fly","SCY","56.98","2025-12-13","Holiday Cup"],
+["100 Fly","LCM","1:06.86","2026-05-17","CW May Showers Invite"],
+["200 Fly","SCY","2:12.18","2025-11-23","MI SST Fall Classic"],
+["100 IM","SCY","58.69","2026-10-24","2026 USSC Trick or Treat Grab"],
+["200 IM","SCY","2:01.47","2026-03-20","MAGS Championship (25y)"],
+["200 IM","LCM","2:17.79","2026-07-17","MAGS Championship Meet (50m)"],
+["400 IM","SCY","4:26.44","2026-02-08","MI OLY Michigan Open"],
+["400 IM","LCM","4:59.48","2026-06-26","MI CW Eric Namesnik Memorial Invitational"]
+].map((x,i)=>({event:x[0],course:x[1],time:x[2],date:x[3],meet:x[4],source:"Uploaded screenshot",id:"i"+i}));
+// Historical result visible on Charlie's public profile; retained for the 2025-26 IMR season only.
+imported.push({event:"100 Breast",course:"SCY",time:"1:07.93",date:"2026-01-16",meet:"SLA Arctic Blast 2026",source:"Published profile history",id:"profile-100br-20260116",age:13,usaPP:397});
+
+let swims=[...imported];
+try{const saved=JSON.parse(localStorage.getItem("charlieSwimAdded")||"[]");if(Array.isArray(saved))swims=swims.concat(saved)}catch(e){}
+let swimGoals=[];
+try{const savedGoals=JSON.parse(localStorage.getItem("charlieSwimGoals")||"[]");if(Array.isArray(savedGoals))swimGoals=savedGoals}catch(e){}
+
+const standards=[];
+function add(group,label,event,course,time,order=0){if(time&&time!=="x")standards.push({group,label,event,course,time,order});}
+const scyNAG = {
+"50 Free":["29.89","27.69","25.59","24.59","23.49","22.39"],
+"100 Free":["1:04.99","1:00.29","55.69","53.39","51.09","48.69"],
+"200 Free":["2:22.49","2:12.29","2:02.19","1:57.09","1:51.99","1:46.89"],
+"500 Free":["6:25.69","5:58.19","5:30.59","5:16.89","5:03.09","4:49.29"],
+"1000 Free":["13:17.99","12:20.99","11:23.99","10:55.49","10:26.99","9:58.49"],
+"1650 Free":["22:22.89","20:46.99","19:11.09","18:23.09","17:35.19","16:47.19"],
+"50 Back":["33.69","31.29","28.89","27.69","26.49","25.29"],
+"100 Back":["1:11.29","1:06.19","1:01.09","58.59","55.99","53.49"],
+"200 Back":["2:34.69","2:23.69","2:12.59","2:07.09","2:01.59","1:55.99"],
+"50 Breast":["38.59","35.79","33.09","31.69","30.29","28.89"],
+"100 Breast":["1:20.49","1:14.79","1:08.99","1:06.19","1:03.29","1:00.39"],
+"200 Breast":["2:54.89","2:42.39","2:29.89","2:23.59","2:17.39","2:11.19"],
+"50 Fly":["33.19","30.79","28.39","27.19","26.09","24.89"],
+"100 Fly":["1:10.49","1:05.49","1:00.39","57.89","55.39","52.89"],
+"200 Fly":["2:36.79","2:25.59","2:14.39","2:08.79","2:03.19","1:57.59"],
+"200 IM":["2:37.99","2:26.69","2:15.39","2:09.79","2:04.09","1:58.49"],
+"400 IM":["5:37.69","5:13.59","4:49.49","4:37.39","4:25.39","4:13.29"]
+};
+const lcmNAG = {
+"50 Free":["34.29","31.79","29.39","28.19","26.89","25.69"],
+"100 Free":["1:15.09","1:09.79","1:04.39","1:01.69","58.99","56.39"],
+"200 Free":["2:43.99","2:32.29","2:20.59","2:14.69","2:08.89","2:02.99"],
+"400 Free":["5:48.39","5:23.49","4:58.69","4:46.19","4:33.79","4:21.29"],
+"800 Free":["12:00.59","11:09.19","10:17.69","9:51.99","9:26.19","9:00.49"],
+"1500 Free":["23:04.59","21:25.69","19:46.79","18:57.39","18:07.89","17:18.49"],
+"50 Back":["39.49","36.69","33.89","32.49","31.09","29.69"],
+"100 Back":["1:23.69","1:17.69","1:11.69","1:08.69","1:05.79","1:02.79"],
+"200 Back":["3:01.79","2:48.79","2:35.79","2:29.29","2:22.79","2:16.29"],
+"50 Breast":["43.99","40.89","37.69","36.19","34.59","32.99"],
+"100 Breast":["1:33.79","1:27.09","1:20.39","1:16.99","1:13.69","1:10.29"],
+"200 Breast":["3:22.79","3:08.29","2:53.79","2:46.59","2:39.39","2:32.09"],
+"50 Fly":["37.29","34.59","31.89","30.59","29.29","27.99"],
+"100 Fly":["1:20.29","1:14.59","1:08.89","1:05.99","1:03.09","1:00.29"],
+"200 Fly":["2:59.69","2:46.79","2:33.99","2:27.59","2:21.19","2:14.79"],
+"200 IM":["3:02.89","2:49.79","2:36.69","2:30.19","2:23.69","2:17.19"],
+"400 IM":["6:30.69","6:02.79","5:34.89","5:20.89","5:06.99","4:52.99"]
+};
+["B","BB","A","AA","AAA","AAAA"].forEach((tier,i)=>{
+ Object.entries(scyNAG).forEach(([ev,times])=>add("USA Swimming 13–14 Motivational","SCY · "+tier,ev,"SCY",times[i],i));
+ Object.entries(lcmNAG).forEach(([ev,times])=>add("USA Swimming 13–14 Motivational","LCM · "+tier,ev,"LCM",times[i],i));
+});
+const mags={
+"50 Free":["27.69","30.89"],"100 Free":["1:00.69","1:09.59"],"200 Free":["2:12.69","2:31.69"],
+"500 Free":["5:51.79","5:15.59"],"1000 Free":["12:27.99","11:10.89"],"1650 Free":["21:10.99","21:43.57"],
+"50 Back":["32.69","38.39"],"100 Back":["1:11.09","1:23.19"],"200 Back":["2:32.69","2:55.69"],
+"50 Breast":["37.19","43.09"],"100 Breast":["1:22.99","1:33.59"],"200 Breast":["2:53.89","3:20.39"],
+"50 Fly":["31.69","36.19"],"100 Fly":["1:13.49","1:23.79"],"200 Fly":["2:50.99","3:15.19"],
+"200 IM":["2:32.49","2:55.89"],"400 IM":["5:33.39","6:25.39"]
+};
+Object.entries(mags).forEach(([ev,t])=>{add("Michigan MAGS 2026–27","13–14 Boys",ev,"SCY",t[0]);add("Michigan MAGS 2026 LCM","13–14 Boys",lcmCounterpart(ev),"LCM",t[1]);});
+const mhsaa={
+"200 Free":["1:47.89","1:51.19","1:55.99"],"200 IM":["2:02.69","2:07.69","2:14.79"],"50 Free":["22.49","22.69","23.19"],
+"100 Fly":["54.49","55.89","57.59"],"100 Free":["49.39","50.29","51.79"],"500 Free":["4:55.19","5:06.29","5:24.39"],
+"100 Back":["56.09","57.89","1:00.49"],"100 Breast":["1:01.99","1:02.69","1:06.19"]
+};
+Object.entries(mhsaa).forEach(([ev,t])=>["D1","D2","D3"].forEach((d,i)=>add("MHSAA 2026–27 Lower Peninsula","Boys · "+d,ev,"SCY",t[i],i)));
+const ultra={
+"50 Free":["22.79","26.19"],"100 Free":["49.09","56.29"],"200 Free":["1:48.99","2:04.56"],"500 Free":["4:59.99","4:29.09"],"1000 Free":["10:24.99","9:20.59"],"1650 Free":["17:36.89","18:03.99"],
+"50 Back":["26.79","31.49"],"100 Back":["57.39","1:07.19"],"200 Back":["2:02.09","2:20.49"],"50 Breast":["29.89","34.69"],"100 Breast":["1:04.39","1:14.39"],"200 Breast":["2:21.99","2:43.59"],
+"50 Fly":["25.39","28.99"],"100 Fly":["55.49","1:03.19"],"200 Fly":["2:04.49","2:22.19"],"200 IM":["2:03.99","2:22.99"],"400 IM":["4:29.69","5:11.79"]
+};
+Object.entries(ultra).forEach(([ev,t])=>{add("Michigan ULTRA 2027","Open",ev,"SCY",t[0]);add("Michigan ULTRA 2027","Open",lcmCounterpart(ev),"LCM",t[1]);});
+function lcmCounterpart(ev){return ({"500 Free":"400 Free","1000 Free":"800 Free","1650 Free":"1500 Free"})[ev]||ev;}
+function addPair(group,ev,scy,lcm){
+ if(scy)add(group,"SCY",ev,"SCY",scy);
+ if(lcm)add(group,"LCM",lcmCounterpart(ev),"LCM",lcm);
+}
+const sectionals={
+"50 Free":["21.69","25.29"],"100 Free":["47.29","54.69"],"200 Free":["1:43.49","2:00.19"],"500 Free":["4:41.99","4:15.09"],"1000 Free":["9:41.29","8:48.49"],"1650 Free":["16:21.49","16:53.49"],
+"50 Back":["24.49","28.69"],"100 Back":["53.29","1:01.89"],"200 Back":["1:54.59","2:13.39"],"50 Breast":["27.19","31.89"],"100 Breast":["59.69","1:09.49"],"200 Breast":["2:09.39","2:30.49"],
+"50 Fly":["23.69","27.39"],"100 Fly":["51.99","59.49"],"200 Fly":["1:54.79","2:11.39"],"200 IM":["1:56.79","2:14.79"],"400 IM":["4:10.49","4:46.79"]
+};
+Object.entries(sectionals).forEach(([ev,t])=>addPair("Speedo Sectionals 2027",ev,t[0],t[1]));
+const futures={
+"50 Free":["21.29","24.59"],"100 Free":["46.39","53.59"],"200 Free":["1:41.59","1:57.79"],"500 Free":["4:37.09","4:09.99"],"1000 Free":["9:34.29","8:40.69"],"1650 Free":["16:05.49","16:38.99"],
+"50 Back":["23.69","27.89"],"100 Back":["51.49","1:00.59"],"200 Back":["1:52.79","2:11.89"],"50 Breast":["26.29","30.89"],"100 Breast":["57.99","1:08.19"],"200 Breast":["2:07.99","2:29.09"],
+"50 Fly":["22.89","26.29"],"100 Fly":["50.59","57.99"],"200 Fly":["1:53.69","2:10.19"],"200 IM":["1:53.89","2:12.79"],"400 IM":["4:06.99","4:42.39"]
+};
+Object.entries(futures).forEach(([ev,t])=>addPair("TYR Futures 2027 · 18 & Under",ev,t[0],t[1]));
+
+// 2026 Speedo Winter Junior Championships — official men's SCY / LCM standards.
+// The table pairs 500y with 400m, 1000y with 800m, and 1650y with 1500m.
+const winterJuniors={
+"50 Free":["20.49","24.09"],"100 Free":["44.89","52.59"],"200 Free":["1:38.39","1:55.29"],
+"500 Free":["4:28.79","4:04.99"],"1000 Free":["9:22.69","8:28.19"],"1650 Free":["15:40.39","16:14.79"],
+"100 Back":["49.19","58.79"],"200 Back":["1:47.79","2:08.29"],"100 Breast":["55.49","1:05.89"],
+"200 Breast":["2:01.59","2:24.09"],"100 Fly":["48.69","56.49"],"200 Fly":["1:49.09","2:06.39"],
+"200 IM":["1:49.59","2:09.29"],"400 IM":["3:56.49","4:35.89"]
+};
+Object.entries(winterJuniors).forEach(([ev,t])=>addPair("Speedo Winter Junior Championships 2026",ev,t[0],t[1]));
+
+// 2027 Toyota National Championships — published men’s standards, split by age category.
+const nationals18U={
+"50 Free":["19.99","23.09"],"100 Free":["43.69","50.79"],"200 Free":["1:35.69","1:50.49"],
+"500 Free":["4:19.19","3:56.09"],"1000 Free":["9:01.89","8:12.99"],"1650 Free":["15:14.39","15:44.89"],
+"50 Back":["22.39","26.39"],"100 Back":["47.79","56.49"],"200 Back":["1:43.99","2:02.39"],
+"50 Breast":["25.19","29.19"],"100 Breast":["53.99","1:02.89"],"200 Breast":["1:57.99","2:16.99"],
+"50 Fly":["21.89","24.89"],"100 Fly":["47.49","54.29"],"200 Fly":["1:45.89","2:01.29"],
+"200 IM":["1:45.99","2:04.29"],"400 IM":["3:49.29","4:25.19"]
+};
+const nationals19O={
+"50 Free":["18.99","22.79"],"100 Free":["41.89","49.89"],"200 Free":["1:32.29","1:49.89"],
+"500 Free":["4:14.09","3:55.59"],"1000 Free":["8:54.59","8:08.09"],"1650 Free":["14:50.69","15:37.79"],
+"50 Back":["21.09","25.69"],"100 Back":["45.29","55.49"],"200 Back":["1:39.99","2:01.69"],
+"50 Breast":["23.89","28.19"],"100 Breast":["51.69","1:01.99"],"200 Breast":["1:52.79","2:15.79"],
+"50 Fly":["20.89","24.19"],"100 Fly":["45.09","53.39"],"200 Fly":["1:41.39","2:00.59"],
+"200 IM":["1:42.59","2:02.69"],"400 IM":["3:41.59","4:24.19"]
+};
+Object.entries(nationals18U).forEach(([ev,t])=>addPair("Toyota National Championships 2027 · 18 & Under",ev,t[0],t[1]));
+Object.entries(nationals19O).forEach(([ev,t])=>addPair("Toyota National Championships 2027 · 19 & Over",ev,t[0],t[1]));
+
+// Latest published Toyota U.S. Open standards located: 2026 men's 18 & Under.
+const usOpen2026={
+"50 Free":["20.39","23.79"],"100 Free":["44.39","51.99"],"200 Free":["1:37.59","1:54.09"],
+"500 Free":["4:25.59","4:02.19"],"1000 Free":["9:13.19","8:23.09"],"1650 Free":["15:31.39","16:05.09"],
+"50 Back":["22.29","26.69"],"100 Back":["48.59","58.19"],"200 Back":["1:46.49","2:06.99"],
+"50 Breast":["25.09","29.59"],"100 Breast":["54.99","1:05.09"],"200 Breast":["2:00.39","2:22.39"],
+"50 Fly":["21.89","25.39"],"100 Fly":["48.19","55.89"],"200 Fly":["1:47.89","2:05.09"],
+"200 IM":["1:48.49","2:07.99"],"400 IM":["3:52.69","4:33.09"]
+};
+Object.entries(usOpen2026).forEach(([ev,t])=>addPair("Toyota U.S. Open 2026 · 18 & Under",ev,t[0],t[1]));
+
+const juniors={
+"50 Free":["20.19","23.79"],"100 Free":["44.29","51.89"],"200 Free":["1:37.19","1:53.89"],"500 Free":["4:25.39","4:02.19"],"1000 Free":["9:13.19","8:23.09"],"1650 Free":["15:30.99","16:05.09"],
+"50 Back":["22.49","26.69"],"100 Back":["48.39","58.09"],"200 Back":["1:46.09","2:06.79"],"50 Breast":["25.29","29.59"],"100 Breast":["54.79","1:04.79"],"200 Breast":["1:59.69","2:21.99"],
+"50 Fly":["21.99","25.29"],"100 Fly":["47.99","55.79"],"200 Fly":["1:47.49","2:05.09"],"200 IM":["1:47.99","2:07.79"],"400 IM":["3:52.69","4:33.09"]
+};
+Object.entries(juniors).forEach(([ev,t])=>addPair("Speedo Summer Junior Nationals 2027",ev,t[0],t[1]));
+const trials={
+"50 Free":"22.69","100 Free":"49.79","200 Free":"1:49.59","400 Free":"3:55.49","800 Free":"8:07.99","1500 Free":"15:36.99",
+"50 Back":"25.59","100 Back":"55.39","200 Back":"2:01.59","50 Breast":"28.09","100 Breast":"1:01.89","200 Breast":"2:15.39",
+"50 Fly":"23.99","100 Fly":"53.29","200 Fly":"2:00.19","200 IM":"2:02.59","400 IM":"4:23.99"
+};
+Object.entries(trials).forEach(([ev,t])=>add("U.S. Olympic Team Trials 2028","Men · LCM",ev,"LCM",t));
+
+const eventNames=["25 Free","50 Free","100 Free","200 Free","400 Free","500 Free","800 Free","1000 Free","1500 Free","1650 Free","25 Back","50 Back","100 Back","200 Back","25 Breast","50 Breast","100 Breast","200 Breast","25 Fly","50 Fly","100 Fly","200 Fly","100 IM","200 IM","400 IM"];
+const $=id=>document.getElementById(id);
+function secs(s){if(!s)return NaN;let p=String(s).trim().split(":");if(p.length===1)return Number(p[0]);if(p.length===2)return Number(p[0])*60+Number(p[1]);return Number(p[0])*3600+Number(p[1])*60+Number(p[2]);}
+function fmt(n){if(!Number.isFinite(n))return "—";let m=Math.floor(n/60),s=(n-m*60).toFixed(2).padStart(5,"0");return m?`${m}:${s}`:s;}
+function niceDate(d){if(!d)return "—";let a=d.split("-");return new Date(Number(a[0]),Number(a[1])-1,Number(a[2])).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"});}
+function pbMap(){let map=new Map();swims.forEach(s=>{let k=s.event+"|"+s.course;if(!map.has(k)||secs(s.time)<secs(map.get(k).time))map.set(k,s)});return map;}
+function currentPB(event,course){return pbMap().get(event+"|"+course)||null;}
+
+// 2026 World Aquatics men's LCM 1000-point base times, in seconds.
+// Official long-course (50m) base-time table.
+const waBaseLCM={
+ "50 Free":20.91,"100 Free":46.40,"200 Free":102.00,"400 Free":219.96,"800 Free":452.12,"1500 Free":870.67,
+ "50 Back":23.55,"100 Back":51.60,"200 Back":111.92,"50 Breast":25.95,"100 Breast":56.88,"200 Breast":125.48,
+ "50 Fly":22.27,"100 Fly":49.45,"200 Fly":110.34,"200 IM":112.69,"400 IM":242.50
+};
+function worldAquaticsPoints(swim){
+ if(!swim||swim.course!=="LCM"||!waBaseLCM[swim.event])return null;
+ const t=secs(swim.time),b=waBaseLCM[swim.event];
+ return Math.floor(1000*Math.pow(b/t,3));
+}
+function ageAtSwim(swim){
+ if(swim.age)return swim.age;
+ const d=swim.date||"";
+ if(d>="2026-06-13")return 14;
+ if(d>="2025-09-01")return 13;
+ if(d>="2023-01-01")return 11;
+ if(d>="2021-01-01")return 9;
+ return "—";
+}
+// Published age/course/event USA Swimming Power Point anchors.
+// SCY profile values are Charlie's published age-at-swim points. Age-14 references
+// are published 13-14 boys' results. The LCM entries below are USA Power Points
+// from Charlie's 2025-26 IMX scorecard, not the separate World Aquatics points.
+const ppAnchors=[
+ // Charlie profile: SCY, age 13
+ ["SCY",13,"50 Free","23.30",482,"profile"],["SCY",13,"100 Free","49.78",543,"profile"],["SCY",13,"200 Free","1:48.02",569,"profile"],
+ ["SCY",13,"500 Free","4:49.91",615,"profile"],["SCY",13,"1000 Free","9:51.21",629,"profile"],["SCY",13,"1650 Free","16:37.89",626,"profile"],
+ ["SCY",13,"50 Back","27.79",420,"profile"],["SCY",13,"100 Back","58.65",471,"profile"],["SCY",13,"200 Back","2:01.96",536,"profile"],
+ ["SCY",13,"50 Fly","27.30",371,"profile"],["SCY",13,"100 Fly","56.98",448,"profile"],["SCY",13,"200 Fly","2:12.18",402,"profile"],
+ ["SCY",13,"50 Breast","31.60",372,"profile"],["SCY",13,"100 Breast","1:07.93",397,"profile"],["SCY",13,"200 Breast","2:28.07",414,"profile"],
+ ["SCY",13,"100 IM","59.82",409,"profile"],["SCY",13,"200 IM","2:01.47",563,"profile"],["SCY",13,"400 IM","4:26.44",517,"profile"],
+ // Age-14 same-event references (exact values where marked; estimates remain approximate)
+ ["SCY",14,"50 Free","23.22",487,"matched"],["SCY",14,"100 Free","51.25",499,"profile-reference"],
+ ["SCY",14,"200 Free","1:54.35",482,"matched-reference"],["SCY",14,"50 Back","29.40",528,"matched-reference"],
+ ["SCY",14,"100 Back","1:00.78",424,"profile-reference"],["SCY",14,"50 Breast","33.40",449,"matched-reference"],
+ ["SCY",14,"100 Fly","58.17",421,"profile-reference"],["SCY",14,"100 Breast","1:07.62",402,"profile"],
+ // Charlie's 2025-26 LCM IMX Power Point scorecard
+ ["LCM",14,"400 Free","4:16.54",828,"imx-profile"],["LCM",14,"200 Back","2:24.59",661,"imx-profile"],
+ ["LCM",14,"200 IM","2:20.45",759,"imx-profile"],["LCM",14,"400 IM","4:59.48",753,"imx-profile"]
+].map(a=>({course:a[0],age:a[1],event:a[2],time:a[3],points:a[4],kind:a[5]}));
+let usaPPOverrides={};
+try{usaPPOverrides=JSON.parse(localStorage.getItem("charlieUSApointOverrides")||"{}")}catch(e){}
+function ppKey(swim){return [swim.event,swim.course,swim.time,swim.date||""].join("|")}
+function usaPowerPoints(swim){
+ if(!swim)return null;
+ const k=ppKey(swim);
+ if(usaPPOverrides[k]!==undefined)return {points:Number(usaPPOverrides[k]),kind:"manual"};
+ if(swim.usaPP!==undefined)return {points:Number(swim.usaPP),kind:"profile"};
+ const age=ageAtSwim(swim);
+ if(age==="—")return null;
+ const anchors=ppAnchors.filter(a=>a.course===swim.course&&a.age===age&&a.event===swim.event);
+ if(!anchors.length)return null;
+ const exact=anchors.find(a=>Math.abs(secs(a.time)-secs(swim.time))<0.0001);
+ if(exact)return {points:exact.points,kind:exact.kind||"profile"};
+ const a=anchors[0],base=secs(a.time)*Math.cbrt(a.points/1000);
+ return {points:Math.floor(1000*Math.pow(base/secs(swim.time),3)),kind:"estimate",anchorKind:a.kind};
+}
+function swimSeason(date){if(!date)return "";const y=Number(date.slice(0,4)),m=Number(date.slice(5,7));const start=m>=9?y:y-1;return `${start}-${start+1}`;}
+function seasonalBest(event,course,season){return swims.filter(x=>x.event===event&&x.course===course&&swimSeason(x.date)===season).sort((a,b)=>secs(a.time)-secs(b.time))[0]||null;}
+function storePPOverride(key,val){if(val===""||!Number.isFinite(Number(val)))delete usaPPOverrides[key];else usaPPOverrides[key]=Number(val);try{localStorage.setItem("charlieUSApointOverrides",JSON.stringify(usaPPOverrides))}catch(e){}}
+function applicable(event,course){return standards.filter(s=>s.event===event&&s.course===course);}
+function status(s,pb){let gap=secs(pb.time)-secs(s.time),met=gap<=0;let pct=met?100:Math.min(100,secs(s.time)/secs(pb.time)*100);return {gap:met?0:gap,pct,met};}
+function nextStandard(event,course,pb){if(!pb)return null;return applicable(event,course).map(s=>({...s,...status(s,pb)})).filter(s=>!s.met).sort((a,b)=>a.gap-b.gap)[0]||null;}
+function saveGoals(){try{localStorage.setItem("charlieSwimGoals",JSON.stringify(swimGoals))}catch(e){$("goalMessage").textContent="This browser could not save the goal list. Keep this page open or export/save your goals elsewhere."}}
+function renderGoals(){
+ const records=[...swimGoals].sort((a,b)=>eventNames.indexOf(a.event)-eventNames.indexOf(b.event)||a.course.localeCompare(b.course));
+ if(!records.length){$("goalsTable").innerHTML='<tr><td colspan="8" class="muted">No goals saved yet. Choose an event, course and target time above to create the first goal.</td></tr>';return;}
+ $("goalsTable").innerHTML=records.map(goal=>{
+  const pb=currentPB(goal.event,goal.course),goalSeconds=secs(goal.time);
+  if(!pb)return `<tr><td class="event">${goal.event}</td><td><span class="pill">${goal.course}</span></td><td class="muted">No PB loaded</td><td class="num">${goal.time}</td><td class="muted">Add a swim to measure the gap</td><td>—</td><td>${niceDate(goal.date)}</td><td><button class="ghost remove-goal" data-goal-key="${encodeURIComponent(goal.event+"|"+goal.course)}">Remove</button></td></tr>`;
+  const pbSeconds=secs(pb.time),gap=pbSeconds-goalSeconds,met=gap<=0,pct=met?100:Math.max(0,Math.min(100,goalSeconds/pbSeconds*100));
+  const distance=met?`GOAL MET · ${fmt(Math.abs(gap))} sec ahead`:`${fmt(gap)} sec to drop`;
+  return `<tr><td class="event">${goal.event}</td><td><span class="pill">${goal.course}</span></td><td class="num">${pb.time}</td><td class="num">${goal.time}</td><td class="goal-result ${met?"met":"pending"}">${distance}</td><td><div class="num">${pct.toFixed(1)}%</div><div class="goal-progress"><i style="width:${pct}%"></i></div></td><td>${niceDate(goal.date)}</td><td><button class="ghost remove-goal" data-goal-key="${encodeURIComponent(goal.event+"|"+goal.course)}">Remove</button></td></tr>`;
+ }).join("");
+ $("goalsTable").querySelectorAll(".remove-goal").forEach(button=>button.addEventListener("click",()=>{
+  const [event,course]=decodeURIComponent(button.dataset.goalKey).split("|");
+  swimGoals=swimGoals.filter(g=>!(g.event===event&&g.course===course));saveGoals();renderGoals();
+  $("goalMessage").textContent=`Removed the ${event} ${course} goal.`;
+ }));
+}
+function addGoal(){
+ const event=$("goalEvent").value,course=$("goalCourse").value,time=$("goalTime").value.trim(),date=$("goalDate").value;
+ if(!Number.isFinite(secs(time))||secs(time)<=0){$("goalMessage").textContent="Enter a valid goal time, such as 49.00, 1:04.25 or 2:18.50.";return;}
+ const existing=swimGoals.find(g=>g.event===event&&g.course===course);
+ if(existing){existing.time=time;existing.date=date;}else{swimGoals.push({event,course,time,date});}
+ saveGoals();renderGoals();
+ const pb=currentPB(event,course);
+ $("goalMessage").textContent=pb?(secs(pb.time)<=secs(time)?`Saved. Charlie has already met this ${event} ${course} goal.`:`Saved. Charlie needs to drop ${fmt(secs(pb.time)-secs(time))} to reach this goal.`):`Saved. Add a ${event} ${course} swim to calculate the distance to this goal.`;
+ $("goalTime").value="";
+}
+
+function fillSelects(){
+ eventNames.forEach(e=>{for(let id of ["event","newEvent","goalEvent"]){let o=document.createElement("option");o.value=e;o.textContent=e;$(id).append(o)}});
+ $("event").value="200 Breast";$("course").value="SCY";$("newEvent").value="50 Free";$("goalEvent").value="200 Breast";$("newDate").value=new Date().toISOString().slice(0,10);
+}
+function renderOverview(){
+ const map=pbMap(), records=[...map.values()];let met=0,available=0,compared=0,next=0;
+ records.forEach(pb=>{let c=applicable(pb.event,pb.course);if(c.length)compared++;c.forEach(s=>{available++;if(status(s,pb).met)met++});if(nextStandard(pb.event,pb.course,pb))next++});
+ $("pbCount").textContent=records.length;$("metCount").textContent=met+" / "+available;$("eventCount").textContent=compared;$("nextCount").textContent=next;
+}
+function renderLadder(){
+ let ev=$("event").value,course=$("course").value,pb=currentPB(ev,course),override=$("timeOverride").value.trim();
+ if(override&&Number.isFinite(secs(override)))pb={...(pb||{}),event:ev,course,time:override,date:"",meet:"Manual comparison"};
+ if(!pb){
+  $("chosenPB").textContent="No PB loaded";$("pbInfo").textContent="Add a time or choose an event with a PB";
+  $("nextTarget").textContent="—";$("nextTargetName").textContent="—";$("gap").textContent="—";$("percent").textContent="—";
+  $("ladder").innerHTML='<div class="callout">There is no personal best loaded for this event and course. Add a swim below to start comparing it.</div>';return;
+ }
+ $("chosenPB").textContent=pb.time;$("pbInfo").textContent=[pb.meet,niceDate(pb.date)].filter(Boolean).join(" · ");
+ let all=applicable(ev,course);
+ if(!all.length){$("nextTarget").textContent="No matching cut";$("nextTargetName").textContent="No listed standard for this distance/course";$("gap").textContent="—";$("percent").textContent="—";$("ladder").innerHTML='<div class="callout">No matching individual standard is included for this event and course. The PB is still stored in the all-times table.</div>';return;}
+ const nxt=nextStandard(ev,course,pb);
+ $("nextTarget").textContent=nxt?nxt.time:"All listed cuts met";
+ $("nextTargetName").textContent=nxt?nxt.group+" · "+nxt.label:"No faster standard remains in this comparison set";
+ $("gap").textContent=nxt?fmt(nxt.gap)+" sec":"0.00 sec";
+ $("percent").textContent=nxt?nxt.pct.toFixed(2)+"% of this next cut":"100% of listed cuts";
+ const groupOrder=[
+  "Michigan MAGS 2026–27","Michigan MAGS 2026 LCM","USA Swimming 13–14 Motivational",
+  "MHSAA 2026–27 Lower Peninsula","Michigan ULTRA 2027","Speedo Sectionals 2027",
+  "TYR Futures 2027 · 18 & Under","Speedo Winter Junior Championships 2026",
+  "Speedo Summer Junior Nationals 2027","Toyota U.S. Open 2026 · 18 & Under",
+  "Toyota National Championships 2027 · 18 & Under","Toyota National Championships 2027 · 19 & Over",
+  "U.S. Olympic Team Trials 2028"
+ ];
+ const groups=[...new Set(all.map(s=>s.group))].sort((a,b)=>groupOrder.indexOf(a)-groupOrder.indexOf(b));
+ $("ladder").innerHTML=groups.map(g=>{
+   const rows=all.filter(s=>s.group===g).map(s=>{let st=status(s,pb);return `<tr><td>${s.label}</td><td class="num">${s.time}</td><td>${st.met?"—":fmt(st.gap)+" sec"}</td><td class="num">${st.pct.toFixed(2)}%</td><td><div class="progress"><i style="width:${st.pct}%"></i></div></td><td><span class="pill ${st.met?"met":"close"}">${st.met?"ACHIEVED":"TO GO"}</span></td></tr>`}).join("");
+   return `<div class="ladder-card"><div class="ladder-head">${g}<span>${all.filter(s=>s.group===g&&status(s,pb).met).length} / ${all.filter(s=>s.group===g).length} achieved</span></div><div class="table-wrap"><table><thead><tr><th>Standard</th><th>Cut time</th><th>Time to cut</th><th>Progress</th><th class="hide-small">Bar</th><th>Status</th></tr></thead><tbody>${rows}</tbody></table></div></div>`;
+ }).join("");
+}
+function renderPBTable(){
+ let records=[...pbMap().values()].sort((a,b)=>eventNames.indexOf(a.event)-eventNames.indexOf(b.event)||a.course.localeCompare(b.course));
+ $("pbTable").innerHTML=records.map(pb=>{
+  let nxt=nextStandard(pb.event,pb.course,pb);
+  let desc=nxt?`${nxt.group} · ${nxt.label}: ${nxt.time} (${fmt(nxt.gap)}s)`:(applicable(pb.event,pb.course).length?"All listed cuts met":"No matching cut");
+  return `<tr style="cursor:pointer" data-event="${pb.event}" data-course="${pb.course}"><td class="event">${pb.event}</td><td><span class="pill">${pb.course}</span></td><td class="num">${pb.time}</td><td>${niceDate(pb.date)}</td><td class="muted">${pb.meet||"Added swim"}</td><td class="small">${desc}</td></tr>`;
+ }).join("");
+ [...$("pbTable").querySelectorAll("tr")].forEach(tr=>tr.addEventListener("click",()=>{$("event").value=tr.dataset.event;$("course").value=tr.dataset.course;$("timeOverride").value="";renderLadder();$("compare").scrollIntoView({behavior:"smooth"})}));
+}
+function renderPoints(){
+ let records=[...pbMap().values()];
+ const course=$("pointCourse").value,sort=$("pointSort").value;
+ if(course!=="ALL")records=records.filter(x=>x.course===course);
+ records=records.map(x=>({swim:x,pp:usaPowerPoints(x),wa:worldAquaticsPoints(x)}));
+ if(sort==="usa")records.sort((a,b)=>(b.pp?.points||-1)-(a.pp?.points||-1));
+ else if(sort==="wa")records.sort((a,b)=>(b.wa||-1)-(a.wa||-1));
+ else records.sort((a,b)=>eventNames.indexOf(a.swim.event)-eventNames.indexOf(b.swim.event)||a.swim.course.localeCompare(b.swim.course));
+ $("pointsTable").innerHTML=records.map(({swim,pp,wa})=>{
+  const key=ppKey(swim),age=ageAtSwim(swim);
+  const ppText=pp?(pp.kind==="estimate"?"~":"")+pp.points.toLocaleString("en-US"):"—";
+  const tag=pp?({profile:"Charlie profile · exact",matched:"Same-age exact match","profile-reference":"Profile reference","matched-reference":"Same-age reference","imx-profile":"IMX profile · exact",estimate:"Estimated from same-age anchor",manual:"Manual override"}[pp.kind]||"Published reference"):"No matched point anchor";
+  return `<tr><td class="event">${swim.event}</td><td><span class="pill">${swim.course}</span></td><td class="num">${swim.time}</td><td>${age}</td><td><div class="num">${ppText}</div><div class="small">${tag}</div><input aria-label="USA Power Points override for ${swim.event} ${swim.course}" type="number" min="0" max="2000" step="1" class="pp-override" data-pp-key="${encodeURIComponent(key)}" placeholder="Override" style="width:95px;padding:5px 7px;font-size:11px;margin-top:4px" value="${usaPPOverrides[key]!==undefined?usaPPOverrides[key]:""}"></td><td class="num">${wa===null?"—":wa.toLocaleString("en-US")}</td></tr>`;
+ }).join("");
+ $("pointsTable").querySelectorAll(".pp-override").forEach(input=>input.addEventListener("change",()=>{const k=decodeURIComponent(input.dataset.ppKey);storePPOverride(k,input.value);renderPoints();renderIMXIMR()}));
+}
+function renderProgramTable(program,course,season){
+ const imr=program==="IMR";
+ const req=imr?["200 Free","100 Back","100 Breast","100 Fly","200 IM"]:(course==="SCY"?["500 Free","200 Back","200 Breast","200 Fly","200 IM","400 IM"]:["400 Free","200 Back","200 Breast","200 Fly","200 IM","400 IM"]);
+ const items=req.map(event=>{const swim=seasonalBest(event,course,season),pp=swim?usaPowerPoints(swim):null;return {event,swim,pp}});
+ const have=items.filter(x=>x.swim).length,scored=items.filter(x=>x.pp).length,total=items.reduce((n,x)=>n+(x.pp?x.pp.points:0),0);
+ const estimated=items.filter(x=>x.pp&&x.pp.kind==="estimate").length;
+ return {items,have,scored,total,estimated,required:req.length,complete:have===req.length&&scored===req.length};
+}
+function renderIMXIMR(){
+ const season=$("imxSeason").value,course=$("imxCourse").value;
+ $("imrCourseLabel").textContent=course;$("imxCourseLabel").textContent=course;
+ const r=renderProgramTable("IMR",course,season),x=renderProgramTable("IMX",course,season);
+ $("imrTotal").textContent=r.scored?`${r.total.toLocaleString("en-US")} pts${r.estimated?"~":""}${!r.complete?"*":""}`:"Not scored yet";
+ $("imrProgress").textContent=`${r.have}/${r.required} required times · ${r.scored}/${r.required} point values · ${r.estimated} estimated`;
+ $("imxTotal").textContent=x.scored?`${x.total.toLocaleString("en-US")} pts${x.estimated?"~":""}${!x.complete?"*":""}`:"Not scored yet";
+ $("imxProgress").textContent=`${x.have}/${x.required} required times · ${x.scored}/${x.required} point values · ${x.estimated} estimated`;
+ function rows(list){return list.map(z=>`<tr><td>${z.event}</td><td class="num">${z.swim?z.swim.time:"—"}</td><td class="num">${z.pp?(z.pp.kind==="estimate"?"~":"")+z.pp.points:"—"}</td><td><span class="pill ${z.pp?"met":z.swim?"close":"open"}">${z.pp?(z.pp.kind==="estimate"?"ESTIMATE":z.pp.kind==="manual"?"MANUAL":"SCORED"):z.swim?"TIME ONLY":"MISSING"}</span></td></tr>`).join("")}
+ $("imrEvents").innerHTML=rows(r.items);$("imxEvents").innerHTML=rows(x.items);
+}
+
+function renderHistory(){
+ let log=[...swims].sort((a,b)=>(b.date||"").localeCompare(a.date||""));
+ $("historyTable").innerHTML=log.map(s=>{let pb=currentPB(s.event,s.course),isPB=pb&&pb.id===s.id;return `<tr><td>${s.event} <span class="pill">${s.course}</span></td><td class="num">${s.time}</td><td>${niceDate(s.date)}</td><td>${isPB?'<span class="pill met">CURRENT PB</span>':'<span class="muted">Logged</span>'}</td></tr>`}).join("");
+}
+function renderAll(){renderOverview();renderLadder();renderPBTable();renderHistory();renderPoints();renderIMXIMR();renderGoals();}
+function addSwim(){
+ let ev=$("newEvent").value,course=$("newCourse").value,time=$("newTime").value.trim(),date=$("newDate").value,meet=$("newMeet").value.trim();
+ if(!Number.isFinite(secs(time))||secs(time)<=0){$("saveMessage").textContent="Please enter a valid swim time, such as 49.02 or 1:07.62.";return;}
+ const prior=currentPB(ev,course);let obj={event:ev,course,time,date,meet:meet||"Added swim",source:"Added in dashboard",id:"a"+Date.now()};
+ swims.push(obj);
+ try{let additions=swims.filter(s=>s.source==="Added in dashboard");localStorage.setItem("charlieSwimAdded",JSON.stringify(additions));}catch(e){}
+ const isPB=!prior||secs(time)<secs(prior.time);
+ $("saveMessage").textContent=isPB?"Saved — this is now the fastest logged time for "+ev+" "+course+".":"Saved to the time log. The existing PB remains "+prior.time+".";
+ $("newTime").value="";$("newMeet").value="";
+ $("event").value=ev;$("course").value=course;$("timeOverride").value="";
+ renderAll();
+}
+function exportCSV(){
+ let rows=[["Event","Course","Time","Date","Meet","Source"],...swims.map(s=>[s.event,s.course,s.time,s.date,s.meet,s.source])];
+ let csv=rows.map(r=>r.map(v=>'"'+String(v??"").replace(/"/g,'""')+'"').join(",")).join("\n");
+ let blob=new Blob([csv],{type:"text/csv;charset=utf-8"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="charlie-dunbar-swim-times.csv";a.click();URL.revokeObjectURL(url);
+}
+$("compareBtn").onclick=renderLadder;$("event").onchange=()=>{$("timeOverride").value="";renderLadder()};$("course").onchange=()=>{$("timeOverride").value="";renderLadder()};
+$("addSwim").onclick=addSwim;$("exportCsv").onclick=exportCSV;
+$("saveGoal").onclick=addGoal;$("clearGoalForm").onclick=()=>{$("goalTime").value="";$("goalDate").value="";$("goalMessage").textContent="Goal form cleared."};
+$("pointCourse").onchange=renderPoints;$("pointSort").onchange=renderPoints;$("refreshPoints").onclick=renderPoints;
+$("imxSeason").onchange=renderIMXIMR;$("imxCourse").onchange=renderIMXIMR;$("refreshIMX").onclick=renderIMXIMR;
+fillSelects();renderAll();
+</script>
+</body>
+</html>
